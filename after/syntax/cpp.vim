@@ -62,11 +62,11 @@ endif
 
 syn clear cppStructure
 if s:needs_cppstructure_match == 0
-	syn keyword cppStructure typename namespace template class
+	syn keyword cppStructure typename namespace template class struct
 elseif s:needs_cppstructure_match == 1
 	syn keyword cppStructure typename namespace template
 elseif s:needs_cppstructure_match == 2
-	syn keyword cppStructure typename namespace class
+	syn keyword cppStructure typename namespace class struct
 elseif s:needs_cppstructure_match == 3
 	syn keyword cppStructure typename namespace
 endif
@@ -78,6 +78,9 @@ if exists('g:cpp_class_decl_highlight') && g:cpp_class_decl_highlight
 	syn match cCustomClassKey "\<class\>"
 	hi def link cCustomClassKey cppStructure
 
+	syn match cCustomStructKey "\<struct\>"
+	hi def link cCustomStructKey cppStructure
+
 	" Clear cppAccess entirely and redefine as matches
 	syn clear cppAccess
 	syn match cCustomAccessKey "\<private\>"
@@ -88,6 +91,8 @@ if exists('g:cpp_class_decl_highlight') && g:cpp_class_decl_highlight
 	" Match the parts of a class declaration
 	syn match cCustomClassName "\<class\_s\+\w\+\>"
 				\ contains=cCustomClassKey
+	syn match cCustomClassName "\<struct\_s\+\w\+\>"
+				\ contains=cCustomStructKey
 	syn match cCustomClassName "\<private\_s\+\w\+\>"
 				\ contains=cCustomAccessKey
 	syn match cCustomClassName "\<public\_s\+\w\+\>"
@@ -96,6 +101,7 @@ if exists('g:cpp_class_decl_highlight') && g:cpp_class_decl_highlight
 				\ contains=cCustomAccessKey
 	hi def link cCustomClassName Function
 endif
+
 " Template functions.
 " Naive implementation that sorta works in most cases. Should correctly
 " highlight everything in test/color2.cpp
